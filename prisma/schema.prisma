@@ -1,0 +1,44 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime?
+  image         String?
+  password      String? // Optional, jo ja mēs lietosim Oauth, tad mums passworda nav. Attiecīgi adapterim jāļauj izveidot useris bez paroles.
+  accounts      Account[]
+  // sessions      Session[]  <-- domāts datu bāzes sesijām
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  // relations. Field "userId" references field "id" un User model. On user delete will delete all accounts.
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // unique rule for provider and providerAccountId
+  @@unique([provider, providerAccountId])
+}
