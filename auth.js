@@ -6,7 +6,7 @@ import authConfig from "@/auth.config";
 export const {
   handlers: { GET, POST },
   auth,
-  // signIn and signOut can be used in server components and actions
+  // signIn and signOut functions can be used in server components and actions. Not available in client components.
   signIn,
   signOut,
 } = NextAuth({

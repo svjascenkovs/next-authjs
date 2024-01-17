@@ -13,7 +13,7 @@ export default {
         if (validatedFields.success) {
           const { email, password } = validatedFields.data;
           // check if email is connected with database
-          const user = getUserByEmail(email);
+          const user = await getUserByEmail(email);
 
           // No password can happen if they login through github or google. No credential login can happen without password, thats why its credential login and we need to check for that.
           if (!user || !user.password) return null;

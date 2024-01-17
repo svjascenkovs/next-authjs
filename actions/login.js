@@ -16,6 +16,7 @@ export const login = async (values) => {
     await signIn("credentials", {
       email,
       password,
+      // Šo apakšā var arī nerakstīt, jo par to parūpējās arī middleware.js, bet mēs vienkārši aprakstam to explicitly.
       redirectTo: DEFAULT_LOGIN_REDIRECT,
     });
   } catch (error) {
