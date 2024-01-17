@@ -11,6 +11,22 @@ export const {
   signIn,
   signOut,
 } = NextAuth({
+  pages: {
+    signIn: "/auth/login",
+    error: "/auth/error",
+  },
+  // Events are asynchronous functions that do not return a response, they are useful for audit logs / reporting or handling any other side-effects.
+  // https://authjs.dev/guides/basics/events
+  events: {
+    // Sent when an account in a given provider is linked to a user in our user database. For example, when a user signs up with Twitter or when an existing user links their Google account.
+    // Ja kāds reģistrējas pirmo reizi caur oAuth provideri, mūsu db tiek izveidots useris. Tā kā oauth google un github paši veic verifikāciju, mēs droši varam verificēt arī mūsu datu bāzē useri. Brīdī kad viņš ienāk pirmo reizi caur oAuth
+    async linkAccount({ user }) {
+      await db.user.update({
+        where: { id: user.id },
+        data: { emailVerified: new Date() },
+      });
+    },
+  },
   callbacks: {
     // izsauc brīdī kad lietojam kodā signIn() metodi.
     // async signIn({ user }) {

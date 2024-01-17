@@ -13,6 +13,7 @@ export const login = async (values) => {
 
   const { email, password } = validatedFields.data;
   try {
+    // signIn iet cauri auth.config.js failam, tā kā šeit ir credentials, tad tieši caur credentials authorize loģiku.
     await signIn("credentials", {
       email,
       password,
