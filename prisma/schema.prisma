@@ -1,6 +1,10 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
+// npx prisma generate
+// npx prisma db push
+// npx prisma studio
+
 generator client {
   provider = "prisma-client-js"
 }
@@ -47,4 +51,13 @@ model Account {
 
   // unique rule for provider and providerAccountId
   @@unique([provider, providerAccountId])
+}
+
+model VerificationToken {
+  id      String   @id @default(cuid())
+  email   String
+  token   String   @unique
+  expires DateTime
+
+  @@unique([email, token])
 }
