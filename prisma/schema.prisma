@@ -1,9 +1,10 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
-// npx prisma generate
-// npx prisma db push
-// npx prisma studio
+// npx prisma generate  <-- to use db in code
+// npx prisma db push   <-- push schema to database
+// npx prisma studio    <-- start prisma studio
+// npx prisma migrate reset <-- delete everything from db. Afterwards "npx prisma db push" is necessary to create db.
 
 generator client {
   provider = "prisma-client-js"

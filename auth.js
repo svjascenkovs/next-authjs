@@ -28,14 +28,19 @@ export const {
     },
   },
   callbacks: {
-    // izsauc brīdī kad lietojam kodā signIn() metodi.
-    // async signIn({ user }) {
-    //   const existingUser = await getUserById(user.id);
-    //   // If email is not verified, we can block login. Dont allow to enter if email is not verified.
-    //   if (!existingUser || !existingUser.emailVerified) {
-    //     return false;
-    //   }
-    // },
+    // izsaucas brīdī, kad lietojam kodā signIn() metodi.
+    async signIn({ user, account }) {
+      // return true ļauj ielogoties, bet return false aizliedz.
+      // Allow Oauth without email verification
+      if (account?.provider !== "credentials") return true;
+
+      // Prevent sign in without email verification
+      const existingUser = await getUserById(user.id);
+      if (!existingUser?.emailVerified) return false;
+
+      return true;
+      // TODO: Add 2FA
+    },
 
     // session ir tas ko atgriežam kad prasam const session = await auth(); Sesijas objekts
     async session({ session, user, token }) {
